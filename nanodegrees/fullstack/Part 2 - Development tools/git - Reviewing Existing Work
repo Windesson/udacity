@@ -1,0 +1,57 @@
+Group By Commit Author
+This is not a massive project, but it does have well over 1,000 commits. A quick way that we can see how many commits each contributor has added to the repository is to use the git shortlog command:
+
+$ git shortlog
+
+git shortlog displays an alphabetical list of names and the commit messages that go along with them. If we just want to see just the number of commits that each developer has made, we can add a couple of flags: -s to show just the number of commits (rather than each commit's message) and -n to sort them numerically (rather than alphabetically by author name).
+
+$ git shortlog -s -n
+
+Filter By Author
+Another way that we can display all of the commits by an author is to use the regular git log command but include the --author flag to filter the commits to the provided author.
+
+$ git log --author=Surma
+
+If we wanted to see only the commits by Paul Lewis we have to run:
+
+$ git log --author="Paul Lewis"
+
+Filter Commits By Search
+
+git show 5966b66
+
+$ git log --grep=bug
+
+git log --grep="unit tests"
+
+Recap
+The git log command is extremely powerful, and you can use it to discover a lot about a repository. But it can be especially helpful to discover information about a repository that you're collaborating on with others. You can use git log to:
+
+group commits by author with git shortlog
+  $ git shortlog
+filter commits with the --author flag
+
+  $ git log --author="Richard Kalehoff"
+filter commits using the --grep flag
+
+  $ git log --grep="border radius issue in Safari"
+
+  Update The README
+  And lastly if any of the code changes that you're adding drastically changes the project you should update the README file to instruct others about this change.
+  Recap
+  Before you start doing any work, make sure to look for the project's CONTRIBUTING.md file.
+
+  Next, it's a good idea to look at the GitHub issues for the project
+
+  look at the existing issues to see if one is similar to the change you want to contribute
+  if necessary create a new issue
+  communicate the changes you'd like to make to the project maintainer in the issue
+  When you start developing, commit all of your work on a topic branch:
+
+  do not work on the master branch
+  make sure to give the topic branch clear, descriptive name
+  As a general best practice for writing commits:
+
+  make frequent, smaller commits
+  use clear and descriptive commit messages
+  update the README file, if necessary

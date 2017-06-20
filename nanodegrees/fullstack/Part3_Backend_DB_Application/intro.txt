@@ -1,0 +1,57 @@
+Uniqueness And Keys
+
+Joining Tables
+(Keyword:columns) SELECT animals.name,animals.species,diet.food
+(Keyword:tables)  FROM animal
+JOING diet
+(Keyword:restriction) ON animal.species=diet.species;
+
+animals:
+
+name string	species string	birthdate date
+Max	gorilla	2001-04-13
+Sue	gorilla	1998-06-12
+Max	moose	2012-02-20
+Alison	llama	1997-11-24
+George	gorilla	2011-01-09
+Spot	iguana	2010-07-23
+Ratu	orangutan	1989-09-15
+Eli	llama	2002-02-22
+diet:
+
+species string	food string
+llama	plants
+brown bear	fish
+brown bear	meat
+brown bear	plants
+orangutan	plants
+orangutan	insects
+
+Just a few SQL types
+
+Text and string types
+text — a string of any length, like Python str or unicode types.
+char(n) — a string of exactly n characters.
+varchar(n) — a string of up to n characters.
+
+Numeric types
+integer — an integer value, like Python int.
+real — a floating-point value, like Python float. Accurate up to six decimal places.
+double precision — a higher-precision floating-point value. Accurate up to 15 decimal places.
+decimal — an exact decimal value.
+
+Date and time types
+date — a calendar date; including year, month, and day.
+time — a time of day.
+timestamp — a date and time together.
+
+
+-- Find all the llamas born between January 1, 1995 and December 31, 1998.
+-- Fill in the 'where' clause in this query.
+
+select name from animals where species='llama' and ( birthdate >= '1995-01-01' and birthdate <= '1998-12-31')
+
+
+LINKS
+https://udacity.atlassian.net/wiki/display/BENDH/RDB+Lesson+2+Reference+Notes
+https://www.postgresql.org/docs/9.4/static/datatype.html

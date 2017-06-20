@@ -1,0 +1,49 @@
+
+Residences:
++--------+----------+------+
+|     id | building | room |
++========+==========+======+
+| 104131 | Dolliver |   14 |
+| 105540 | Kendrick |   3B |
+| 118199 | Kendrick |   1A |
+| 161282 | Dolliver |    7 |
+| 170267 | Dolliver |    1 |
+| 231742 | Kendrick |   3B |
+| 250841 | Kendrick |   2B |
+| 410315 |   Crosby |   20 |
+| 413001 |   Crosby |   10 |
+| 427611 | Dolliver |   10 |
+| 477801 | Dolliver |    8 |
+| 496747 |   Crosby |   19 |
+| 498446 |   Crosby |   21 |
+| 505241 | Dolliver |    8 |
+| 612413 |   Crosby |   31 |
+| 707536 | Dolliver |   14 |
+| 741532 |   Crosby |   19 |
+| 762907 | Dolliver |    9 |
+| 824292 | Kendrick |   1A |
+| 851866 |   Crosby |   22 |
+| 881256 |   Crosby |   10 |
+| 931027 |   Crosby |   31 |
+| 958827 | Dolliver |    1 |
++--------+----------+------+
+
+select a.id, b.id, a.building, a.room
+       from residences as a, residences as b
+ where a.building = b.building
+   and a.room = b.room
+   and a.id < b.id
+ order by a.building, a.room;
+
+ +--------+--------+----------+------+
+|     id |     id | building | room |
++========+========+==========+======+
+| 413001 | 881256 |   Crosby |   10 |
+| 496747 | 741532 |   Crosby |   19 |
+| 612413 | 931027 |   Crosby |   31 |
+| 170267 | 958827 | Dolliver |    1 |
+| 104131 | 707536 | Dolliver |   14 |
+| 477801 | 505241 | Dolliver |    8 |
+| 118199 | 824292 | Kendrick |   1A |
+| 105540 | 231742 | Kendrick |   3B |
++--------+--------+----------+------+

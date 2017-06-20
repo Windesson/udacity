@@ -1,0 +1,26 @@
+Normalized Design Part Two
+Check out William Kent's paper "A Simple Guide to Five Normal Forms in Relational
+Database Theory" for a lot more about normalization and how it can help your database design.
+
+Wikipedia's article on database normalization is somewhat brief, but describes some of
+the history of normalization as well as some more of the motivations for it.
+
+You will sometimes hear about denormalization as an approach to making database
+queries faster by avoiding joins. This is an advanced topic beyond the scope of
+ this course. But if you're interested in it, on modern database systems (such as PostgreSQL)
+ it is often possible to meet the same goals using tools such as indexes and materialized views.
+
+ https://www.postgresql.org/docs/9.4/static/sql-creatematerializedview.html
+
+ https://www.postgresql.org/docs/9.4/static/sql-createindex.html
+
+ https://en.wikipedia.org/wiki/Database_normalization
+
+ http://www.bkent.net/Doc/simple5.htm
+
+Rule to normalized Design
+
+1 - Every row has the same number of columns
+2 - There is a unique Key, and everything in a row says something about the key.
+3 - Facts that don't relate to the key belong in different tables
+4 - Tables shouldn't imply relationship that don't exist.

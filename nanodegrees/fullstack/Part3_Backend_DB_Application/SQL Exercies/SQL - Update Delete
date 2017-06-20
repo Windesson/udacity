@@ -1,0 +1,45 @@
+update table
+set column = value
+where restriction;
+
+Updating Away The Span
+
+where content = 'The whole spam post';
+or
+where content like '%awful%';
+
+update table set column = value where restriction ;
+
+The restriction works the same as in select and supports the same set of operators on column values.
+
+The like operator supports a simple form of text pattern-matching. Whatever is on the left side of the operator (usually the name of a text column) will be matched against the pattern on the right. The pattern is an SQL text string (so it's in 'single quotes') and can use the % sign to match any sub-string, including the empty string.
+
+If you are familiar with regular expressions, think of the % in like patterns as being like the regex .* (dot star).
+
+If you are more familiar with filename patterns in the Unix shell or Windows command prompt, % here is a lot like * (star) in those systems.
+
+For instance, for a table row where the column fish has the value 'salmon', all of these restrictions would be true:
+
+fish like 'salmon'
+fish like 'salmon%'
+fish like 'sal%'
+fish like '%n'
+fish like 's%n'
+fish like '%al%'
+fish like '%'
+fish like '%%%'
+And all of these would be false:
+
+fish like 'carp'
+fish like 'salmonella'
+fish like '%b%'
+fish like 'b%'
+fish like ''
+
+
+==========
+
+Deleting the Spam
+
+DELETE FROM table
+WHERE restriction;

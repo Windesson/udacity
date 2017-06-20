@@ -1,0 +1,25 @@
+-- Here's a select statement that runs on the zoo database.
+-- It selects the species with the top five highest populations in the zoo.
+-- Change it into a statement that creates a view named "topfive".
+
+CREATE VIEW topfive AS
+select species, count(*) as num
+  from animals
+  group by species
+  order by num desc
+  limit 5;
+
+
+-- Don't change the statement below!  It's there to test the view.
+
+select * from topfive;
+
++-----------+-----+
+|   species | num |
++===========+=====+
+|   gorilla |   9 |
+|     llama |   9 |
+| orangutan |   6 |
+|    alpaca |   5 |
+|    ferret |   5 |
++-----------+-----+

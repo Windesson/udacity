@@ -1,0 +1,135 @@
+Download the data
+Next, download the data here. You will need to unzip this file after downloading it. The file inside is called newsdata.sql. Put this file into the vagrant directory, which is shared with your virtual machine.
+https://d17h27t6h515a5.cloudfront.net/topher/2016/August/57b5f748_newsdata/newsdata.zip
+
+To build the reporting tool, you'll need to load the site's data into your local database. Review how to use the psql command in this lesson.
+
+To load the data, use the command psql -d news -f newsdata.sql.
+Here's what this command does:
+
+psql — the PostgreSQL command line program
+-d news — connect to the database named news which has been set up for you
+-f newsdata.sql — run the SQL statements in the file newsdata.sql
+Running this command will connect to your installed database server and execute the SQL commands in the downloaded file, creating tables and populating them with data.
+
+
+Explore the data
+Once you have the data loaded into your database, connect to your database using psql -d news and explore the tables using the \dt and \d table commands and select statements.
+
+\dt — display tables — lists the tables that are available in the database.
+\d table — (replace table with the name of a table) — shows the database schema for that particular table.
+Get a sense for what sort of information is in each column of these tables.
+
+The database includes three tables:
+
+The authors table includes information about the authors of articles.
+The articles table includes the articles themselves.
+The log table includes one entry for each time a user has accessed the site.
+As you explore the data, you may find it useful to take notes! Don't try to memorize all the columns. Instead, write down a description of the column names and what kind of values are found in those column
+
+
+news=> \d
+               List of relations
+ Schema |      Name       |   Type   |  Owner
+--------+-----------------+----------+---------
+ public | articles        | table    | vagrant
+ public | articles_id_seq | sequence | vagrant
+ public | authors         | table    | vagrant
+ public | authors_id_seq  | sequence | vagrant
+ public | log             | table    | vagrant
+ public | log_id_seq      | sequence | vagrant
+(6 rows)
+
+news=> \dt
+          List of relations
+ Schema |   Name   | Type  |  Owner
+--------+----------+-------+---------
+ public | articles | table | vagrant
+ public | authors  | table | vagrant
+ public | log      | table | vagrant
+(3 rows)
+========================
+CREATE TABLE articles (
+    author integer NOT NULL,
+    title text NOT NULL,
+    slug text NOT NULL,
+    lead text,
+    body text,
+    "time" timestamp with time zone DEFAULT now(),
+    id integer NOT NULL
+);
+CREATE TABLE authors (
+    name text NOT NULL,
+    bio text,
+    id integer NOT NULL
+);
+CREATE TABLE log (
+    path text,
+    ip inet,
+    method text,
+    status text,
+    "time" timestamp with time zone DEFAULT now(),
+    id integer NOT NULL
+);
+
+
+news=> select * from articles;
+ author |               title                |           slug            |                                                lead                                                 |                                                                                                                                body                                                                                                                                 |             time              | id
+--------+------------------------------------+---------------------------+-----------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------+----
+      3 | Bad things gone, say good people   | bad-things-gone           | All bad things have gone away, according to a poll of good people Thursday.                         | Bad things are a thing of the bad, bad past. Or so say good people, who were asked by pollsters Thursday whether bad things still are.                                                                                                                              | 2016-08-15 18:55:10.814316+00 | 23
+      4 | Balloon goons doomed               | balloon-goons-doomed      | The doom of balloon goons is true news.                                                             | The goons are doomed, no matter how much their balloons balloon.                                                                                                                                                                                                    | 2016-08-15 18:55:10.814316+00 | 24
+      1 | Bears love berries, alleges bear   | bears-love-berries        | Rumors that bears love berries were confirmed by bear, who also proclaims love of salmon and honey. | Bear specified that raspberries were a personal favorite, although wild blackberries remain more abundant throughout the summer and early fall.                                                                                                                     | 2016-08-15 18:55:10.814316+00 | 25
+      2 | Candidate is jerk, alleges rival   | candidate-is-jerk         | That political candidate is a real jerk, according to a rival.                                      | The rival alleged egotism, arrogance, and an almost fanatical devotion to media grandstanding. The candidate's campaign denied everything, and retaliated that the rival is a doo-doo head.                                                                         | 2016-08-15 18:55:10.814316+00 | 26
+      1 | Goats eat Google's lawn            | goats-eat-googles         | A herd of goats are eating Google's lawn.                                                           | And the Googlers think it's super cute.                                                                                                                                                                                                                             | 2016-08-15 18:55:10.814316+00 | 27
+      1 | Media obsessed with bears          | media-obsessed-with-bears | Media sources claim media figures fixated on bears and bear-related products.                       | Traditional media prefer green bears while online reporters love polar bears.                                                                                                                                                                                       | 2016-08-15 18:55:10.814316+00 | 28
+      2 | Trouble for troubled troublemakers | trouble-for-troubled      | Troublemakers with troubles are in trouble, allege trouble consultants.                             | Four out of five troublemakers have trouble with trouble, according to a troubling study published Tuesday by the Troubled Troublemakers Project.                                                                                                                   | 2016-08-15 18:55:10.814316+00 | 30
+      1 | There are a lot of bears           | so-many-bears             | There certainly are a lot of bears in these woods.                                                  | My goodness, there really are very many bears. There are brown bears, black bears, green bears, and pink bears. No, wait, I think some of the green bears are actually trees. Trees are a lot like bears, in that they live in the woods and have very sharp teeth. | 2016-08-15 18:55:10.814316+00 | 29
+(8 rows)
+
+
+news=> select * from authors;
+          name          |                                                bio                                                 | id
+------------------------+----------------------------------------------------------------------------------------------------+----
+ Ursula La Multa        | Ursula La Multa is an expert on bears, bear abundance, and bear accessories.                       |  1
+ Rudolf von Treppenwitz | Rudolf von Treppenwitz is a nonprofitable disorganizer specializing in procrastinatory operations. |  2
+ Anonymous Contributor  | Anonymous Contributor's parents had unusual taste in names.                                        |  3
+ Markoff Chaney         | Markoff Chaney is the product of random genetics.                                                  |  4
+(4 rows)
+
+
+
+news=> select * from log limit 50;
+                path                |       ip       | method | status |          time          |   id
+------------------------------------+----------------+--------+--------+------------------------+---------
+ /                                  | 198.51.100.195 | GET    | 200 OK | 2016-07-01 07:00:00+00 | 1678923
+ /article/candidate-is-jerk         | 198.51.100.195 | GET    | 200 OK | 2016-07-01 07:00:47+00 | 1678924
+ /article/goats-eat-googles         | 198.51.100.195 | GET    | 200 OK | 2016-07-01 07:00:34+00 | 1678925
+ /article/goats-eat-googles         | 198.51.100.195 | GET    | 200 OK | 2016-07-01 07:00:52+00 | 1678926
+ /article/balloon-goons-doomed      | 198.51.100.195 | GET    | 200 OK | 2016-07-01 07:00:23+00 | 1678927
+ /                                  | 192.0.2.194    | GET    | 200 OK | 2016-07-01 07:00:05+00 | 1678928
+ /article/candidate-is-jerk         | 192.0.2.194    | GET    | 200 OK | 2016-07-01 07:00:54+00 | 1678929
+ /                                  | 192.0.2.80     | GET    | 200 OK | 2016-07-01 07:00:15+00 | 1678930
+ /article/bears-love-berries        | 192.0.2.80     | GET    | 200 OK | 2016-07-01 07:01:13+00 | 1678931
+ /                                  | 198.51.100.144 | GET    | 200 OK | 2016-07-01 07:00:21+00 | 1678932
+ /article/trouble-for-troubled      | 198.51.100.144 | GET    | 200 OK | 2016-07-01 07:00:56+00 | 1678933
+ /                                  | 203.0.113.234  | GET    | 200 OK | 2016-07-01 07:00:31+00 | 1678934
+ /article/candidate-is-jerk         | 203.0.113.234  | GET    | 200 OK | 2016-07-01 07:01:14+00 | 1678935
+ /article/bad-things-gone           | 203.0.113.234  | GET    | 200 OK | 2016-07-01 07:01:02+00 | 1678936
+ /                                  | 203.0.113.235  | GET    | 200 OK | 2016-07-01 07:00:32+00 | 1678937
+ /article/bears-love-berries        | 203.0.113.235  | GET    | 200 OK | 2016-07-01 07:01:12+00 | 1678938
+ /                                  | 203.0.113.127  | GET    | 200 OK | 2016-07-01 07:00:33+00 | 1678939
+ /article/balloon-goons-doomed      | 203.0.113.127  | GET    | 200 OK | 2016-07-01 07:01:08+00 | 1678940
+ /article/bears-love-berries        | 203.0.113.127  | GET    | 200 OK | 2016-07-01 07:01:00+00 | 1678941
+ /article/candidate-is-jerk         | 203.0.113.127  | GET    | 200 OK | 2016-07-01 07:01:03+00 | 1678942
+ /                                  | 203.0.113.115  | GET    | 200 OK | 2016-07-01 07:00:36+00 | 1678943
+ /article/bears-love-berries        | 203.0.113.115  | GET    | 200 OK | 2016-07-01 07:01:23+00 | 1678944
+ /                                  | 192.0.2.78     | GET    | 200 OK | 2016-07-01 07:00:44+00 | 1678945
+ /article/bears-love-berries        | 192.0.2.78     | GET    | 200 OK | 2016-07-01 07:01:34+00 | 1678946
+ /article/trouble-for-troubled      | 192.0.2.78     | GET    | 200 OK | 2016-07-01 07:01:12+00 | 1678947
+ /article/bears-love-berries        | 192.0.2.78     | GET    | 200 OK | 2016-07-01 07:01:34+00 | 1678948
+ /                                  | 198.51.100.114 | GET    | 200 OK | 2016-07-01 07:00:54+00 | 1678949
+ /article/candidate-is-jerk         | 198.51.100.114 | GET    | 200 OK | 2016-07-01 07:01:29+00 | 1678950
+ /                                  | 192.0.2.75     | GET    | 200 OK | 2016-07-01 07:01:04+00 | 1678951
+ /article/balloon-goons-doomed      | 192.0.2.75     | GET    | 200 OK | 2016-07-01 07:01:21+00 | 1678952
+ /article/candidate-is-jerk         | 192.0.2.75     | GET    | 200 OK | 2016-07-01 07:01:35+00 | 1678953
+ /                                  | 192.0.2.23     | GET    | 200 OK | 2016-07-01 07:01:12+00 | 1678954

@@ -1,0 +1,23 @@
+>>> from urllib.parse import urlparse, parse_qs
+>>> address = 'https://www.google.com/search?q=gray+squirrel&tbm=isch'
+>>> parts = urlparse(address)
+>>> print(parts)
+ParseResult(scheme='https', netloc='www.google.com', path='/search', params='', query='q=gray+squirrel&tbm=isch', fragment='')
+>>> print(parts.query)
+q=gray+squirrel&tbm=isch
+>>> query = parse_qs(parts.query)
+>>> query
+{'q': ['gray squirrel'], 'tbm': ['isch']}
+
+
+
+Make a Request
+Making a request with Requests is very simple.
+
+Begin by importing the Requests module:
+
+>>> import requests
+Now, let's try to get a webpage. For this example, let's get GitHub's public timeline:
+
+>>> r = requests.get('https://api.github.com/events')
+Read on http://docs.python-requests.org/en/master/user/quickstart/

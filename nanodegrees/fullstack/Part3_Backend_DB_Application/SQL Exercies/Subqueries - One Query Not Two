@@ -1,0 +1,73 @@
+Subqueries
+
+TABLE ----> SELECT ---> RESULT TABLE
+
+SELECT ---> RESULT TABLE --> SELET --> RESULT TABLE
+
+
+MOSSEBALL:
+
+player | team | score
+Martha | Ice  | 17
+Bull   | Fros | 23
+Joe    | Ice  | 11
+
+Highest score per team:
+SELECT MAX(score) as bigscore
+From mooseball
+Group by team;
+
+Avg score of the highest score
+
+SELECT avg(bigscore) from
+(
+-- Highest score per team:
+SELECT MAX(score) as bigscore
+From mooseball
+Group by team;
+) as maxes;
+
+Require, the subquery result name MUST be maxes;
+
+https://www.postgresql.org/docs/9.4/static/sql-expressions.html#SQL-SYNTAX-SCALAR-SUBQUERIES
+https://www.postgresql.org/docs/9.4/static/functions-subquery.html
+
+
+# Find the players whose weight is less than the average.
+#
+# The function below performs two database queries in order to find the right players.
+# Refactor this code so that it performs only one query.
+#
+
+def lightweights(cursor):
+    """Returns a list of the players in the db whose weight is less than the average."""
+    cursor.execute("select avg(weight) as av from players;")
+    av = cursor.fetchall()[0][0]  # first column of first (and only) row
+    cursor.execute("select name, weight from players where weight < " + str(av))
+    return cursor.fetchall()
+
+    [('George Moose', 400), ('Edna Moose', 340), ('Emmy Moose', 410), ('Betty McMoose', 400)]
+
+    Queries performed: 2
+
+SOLUTION
+def lightweights(cursor):
+    """Returns a list of the players in the db whose weight is less than the average."""
+    cursor.execute("""
+         SELECT name, weight, av
+         FROM  players, (select avg(weight) as av from players) as subq
+         WHERE weight < av;""")
+    #av = cursor.fetchall()[0][0]  # first column of first (and only) row
+    #cursor.execute("select name, weight from players where weight < " + str(av))
+    return cursor.fetchall()
+
+    [('George Moose', 400, 418.0), ('Edna Moose', 340, 418.0), ('Emmy Moose', 410, 418.0), ('Betty McMoose', 400, 418.0)]
+
+    Queries performed: 1
+
+
+
+[('George Moose', 400, 418.0), ('Edna Moose', 340, 418.0), ('Emmy Moose', 410, 418.0), ('Betty McMoose', 400, 418.0)]
+
+
+https://www.postgresql.org/docs/9.4/static/queries-table-expressions.html#QUERIES-SUBQUERIES

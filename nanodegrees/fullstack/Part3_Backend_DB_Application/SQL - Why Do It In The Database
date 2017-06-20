@@ -1,0 +1,5 @@
+why not just use python ?
+
+- DB offer speed (indexing) and space,
+- multiple process can access the same data in a DB tables without stepping on
+each other.

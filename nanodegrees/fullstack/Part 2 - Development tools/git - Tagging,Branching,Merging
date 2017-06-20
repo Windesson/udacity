@@ -1,0 +1,93 @@
+GitFinal L5 01 Tagging, Branching, And Merging - Intro
+
+
+Git Tag Command
+Pay attention to what's shown (just the SHA and the commit message)
+
+The command we'll be using to interact with the repository's tags is the git tag command:
+
+$ git tag -a v1.0
+
+Deleting A Tag
+What if you accidentally misspelled something in the tag's message, or mistyped the actual tag name (v0.1 instead of v1.0). How could you fix this? The easiest way is just to delete the tag and make a new one.
+
+A Git tag can be deleted with the -d flag (for delete!) and the name of the tag:
+
+$ git tag -d v1.0
+
+
+Adding A Tag To A Past Commit
+Running git tag -a v1.0 will tag the most recent commit. But what if you wanted to tag a commit that occurred farther back in the repo's history?
+
+All you have to do is provide the SHA of the commit you want to tag!
+
+$ git tag -a v1.0 a87984
+
+The git branch command
+The git branch command is used to interact with Git's branches:
+
+$ git branch
+
+
+Create A Branch
+To create a branch, all you have to do is use git branch and provide it the name of the branch you want it to create. So if you want a branch called "sidebar", you'd run this command:
+
+$ git branch sidebar
+$ git checkout sidebar
+
+Create A Branch and point to a SHA
+$ git branch alt-sidebar-loc 42a69f
+
+
+Branches In The Log
+The branch information in the command prompt is helpful, but the clearest way to see it is by looking at the output of git log. But just like we had to use the --decorate flag to display Git tags, we need it to display branches.
+
+$ git log --oneline --decorate
+
+
+The Active Branch
+The command prompt will display the active branch. But this is a special customization we made to our prompt. If you find yourself on a different computer, the fastest way to determine the active branch is to look at the output of the git branch command. An asterisk will appear next to the name of the active branch.
+
+Delete A Branch
+A branch is used to do development or make a fix to the project that won't affect the project (since the changes are made on a branch). Once you make the change on the branch, you can combine that branch into the master branch (this "combining of branches" is called "merging" and we'll look at shortly).
+
+Now after a branch's changes have been merged, you probably won't need the branch anymore. If you want to delete the branch, you'd use the -d flag. The command below includes the -d flag which tells Git to delete the provided branch (in this case, the "sidebar" branch).
+
+$ git branch -d sidebar
+
+Git Branch Recap
+To recap, the git branch command is used to manage branches in Git:
+
+# to list all branches
+$ git branch
+
+# to create a new "footer-fix" branch
+$ git branch footer-fix
+
+# to delete the "footer-fix" branch
+$ git branch -d footer-fix
+
+To force deletion, you need to use a capital D flag - git branch -D sidebar.
+
+See All Branches At Once
+git log --oneline --decorate --graph --all
+
+
+⚠️ Know The Branch ⚠️
+It's very important to know which branch you're on when you're about to merge branches together. Remember that making a merge makes a commit.
+
+As of right now, we do not know how to undo changes. We'll go over it in the next lesson, but if you make a merge on the wrong branch, use this command to undo the merge:
+
+git reset --hard HEAD^
+
+(Make sure to include the ^ character! It's a known as a "Relative Commit Reference" and indicates "the parent commit". We'll look at Relative Commit References in the next lesson.)
+
+
+The Merge Command
+The git merge command is used to combine Git branches:
+
+$ git merge <name-of-branch-to-merge-in>
+
+
+Fast-forward Merge
+$ git merge footer

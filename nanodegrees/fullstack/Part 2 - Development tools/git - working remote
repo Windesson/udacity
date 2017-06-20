@@ -1,0 +1,114 @@
+Silva@DESKTOP-ABF0RN0 MINGW64 ~/Documents/GitHub/udacity (master)
+$ git remote -v
+origin  git@github.com:Windesson/udacity.git (fetch)
+origin  git@github.com:Windesson/udacity.git (push)
+
+Recap
+A remote repository is a repository that's just like the one you're using but it's just stored at a different location. To manage a remote repository, use the git remote command:
+
+$ git remote
+It's possible to have links to multiple different remote repositories.
+A shortname is the name that's used to refer to a remote repository's location. Typically the location is a URL, but it could be a file path on the same computer.
+git remote add is used to add a connection to a new remote repository.
+git remote -v is used to see the details about a connection to a remote.
+
+ git log --oneline --graph --decorate --all
+
+
+ Sending Commits
+ To send local commits to a remote repository you need to use the git push command. You provide the remote short name and then you supply the name of the branch that contains the commits you want to push:
+
+ $ git push <remote-shortname> <branch>
+ My remote's shortname is origin and the commits that I want to push are on the master branch. So I'll use the following command to send my commits to the remote repository on GitHub:
+
+ $ git push origin master
+
+ Recap
+ If there are changes in a remote repository that you'd like to include in your local repository, then you want to pull in those changes. To do that with Git, you'd use the git pull command. You tell Git the shortname of the remote you want to get the changes from and then the branch that has the changes you want:
+
+ $ git pull origin master
+ hen git pull is run, the following things happen:
+
+the commit(s) on the remote branch are copied to the local repository
+the local tracking branch (origin/master) is moved to point to the most recent commit
+the local tracking branch (origin/master) is merged into the local branch (master)
+
+Recap
+You can think of the git pull command as doing two things:
+
+fetching remote changes (which adds the commits to the local repository and moves the tracking branch to point to them)
+merging the local branch with the tracking branch
+The git fetch command is just the first step. It just retrieves the commits and moves the tracking branch. It does not merge the local branch with the tracking branch. The same information provided to git pull is passed to git fetch:
+
+the shorname of the remote repository
+the branch with commits to retrieve
+$ git fetch origin master
+
+(remote) a-3-d-f-e-7 <-(origin/master)
+
+(local)  a-3-d-f-e-b <- master
+
+$ git merge origin/master
+
+(remote) a-3-d-f-e-7 <-(origin/master)
+                  / \
+(local)  a-3-d-f-e-b-4<- master
+
+$ git push origin master
+
+(remote) a-3-d-f-e-7
+                  / \
+(local)  a-3-d-f-e-b-4 <-master, origin/master
+
+# check your work
+$ git log --oneline --graph --decorate --all
+Recap
+You can think of the git pull command as doing two things:
+
+fetching remote changes (which adds the commits to the local repository and moves the tracking branch to point to them)
+merging the local branch with the tracking branch
+The git fetch command is just the first step. It just retrieves the commits and moves the tracking branch. It does not merge the local branch with the tracking branch. The same information provided to git pull is passed to git fetch:
+
+the shorname of the remote repository
+the branch with commits to retrieve
+$ git fetch origin master
+
+Recap
+Forking is an action that's done on a hosting service, like GitHub. Forking a repository creates an identical copy of the original repository and moves this copy to your account. You have total control over this forked repository. Modifying your forked repository does not alter the original repository in any way.
+
+
+Including Upstream Changes
+Silva@DESKTOP-ABF0RN0 MINGW64 ~/Documents/GitHub/course-git-blog-project (silva-udacity)
+$ git remote add upstream https://github.com/udacity/course-collaboration-travel-plans.git
+
+Silva@DESKTOP-ABF0RN0 MINGW64 ~/Documents/GitHub/course-git-blog-project (silva-udacity)
+$ git remote -v
+origin  git@github.com:Windesson/course-git-blog-project.git (fetch)
+origin  git@github.com:Windesson/course-git-blog-project.git (push)
+upstream        https://github.com/udacity/course-collaboration-travel-plans.git (fetch)
+upstream        https://github.com/udacity/course-collaboration-travel-plans.git (push)
+
+$ git remote rename mine origin
+$ git remote rename source-repo upstream
+
+# to make sure I'm on the correct branch for merging
+$ git checkout master
+
+# merge in Lam's changes
+$ git merge upstream/master
+
+# send Lam's changes to *my* remote
+$ git push origin master
+
+Recap
+When working with a project that you've forked. The original project's maintainer will continue adding changes to their project. You'll want to keep your fork of their project in sync with theirs so that you can include any changes they make.
+
+To get commits from a source repository into your forked repository on GitHub you need to:
+
+get the cloneable URL of the source repository
+create a new remote with the git remote add command
+use the shortname upstream to point to the source repository
+provide the URL of the source repository
+fetch the new upstream remote
+merge the upstream's branch into a local branch
+push the newly updated local branch to your origin repo

@@ -1,0 +1,64 @@
+====
+1
+=====
+
+
++-------------+------------+------------+
+|        name |    species |  birthdate |
++=============+============+============+
+|      Andrea |     alpaca | 2001-01-16 |
+|       Bruno |     alpaca | 2004-09-23 |
+|     Charlie |     alpaca | 2004-09-23 |
+|       Della |     alpaca | 2006-01-09 |
+|        Emma |     alpaca | 2013-03-16 |
+|        Fred | brown bear | 1993-05-02 |
+|      George | brown bear | 1997-06-24 |
+|       Molly | brown bear | 1981-10-17 |
+|     Eliezer |      camel | 1971-03-08 |
+|    Giuseppe |      camel | 1979-12-25 |
+....
+
+-- Write a query that returns all the species in the zoo, and how many
+-- animals of each species there are, sorted with the most populous
+-- species at the top.
+--
+-- The result should have two columns:  species and number.
+--
+-- The animals table has columns (name, species, birthdate) for each animal.
+
+-- select * from animals
+select count(*) as num,species FROM animals
+group by species
+order by num desc
+
++-----+------------+
+| num |    species |
++=====+============+
+|   9 |    gorilla |
+|   9 |      llama |
+|   6 |  orangutan |
+|   5 |     alpaca |
+|   5 |     ferret |
+|   5 |     jackal |
+|   5 |   sea lion |
+|   5 |        yak |
+|   5 |      zebra |
+|   4 |     iguana |
+|   4 |      moose |
+|   3 | brown bear |
+|   3 |      camel |
+|   3 |      dingo |
+|   3 |      hyena |
+|   3 |   platypus |
+|   3 |    raccoon |
+|   3 |    warthog |
+|   2 |    narwhal |
+|   2 |    unicorn |
+|   1 |    echidna |
+|   1 |   mongoose |
++-----+------------+
+
+
+====
+2
+=====

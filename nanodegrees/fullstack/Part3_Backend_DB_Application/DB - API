@@ -1,0 +1,80 @@
+Database System |  DB-API module
+-----------------------------------
+SQLite          |  sqlite3
+PostgreSQL      |  psycopg2
+ODBC            |  pyodbc
+MySQL           |  mysql.connector
+-----------------------------------
+
+Writing Code with DB API
+
+------
+import sqlite3
+
+conn = sqlite3.connect("Cookies")
+# or in PostgreSQL
+conn = scopg2.connect("dbname=Cookies")
+
+cursor = conn.cursor()
+
+cursor.execute(
+ "select host_key from cookies limit 10")
+
+result = cursor.fetchall()
+
+print results
+
+conn.close()
+-------
+Inserts in DB API
+
+pg = pyycopg2.connect("dbname=somedb")
+c = pg.cursor()
+c.execute("insert into names values('Jennifer Smith')")
+pg.commit()
+
+-----
+
+# To see how the various functions in the DB-API work, take a look at this code,
+# then the results that it prints when you press "Test Run".
+#
+# Then modify this code so that the student records are fetched in sorted order
+# by student's name.
+#
+
+import sqlite3
+
+# Fetch some student records from the database.
+db = sqlite3.connect("students")
+c = db.cursor()
+query = "select name, id from students order by name;"
+c.execute(query)
+rows = c.fetchall()
+
+# First, what data structure did we get?
+print "Row data:"
+print rows
+
+# And let's loop over it too:
+print
+print "Student names:"
+for row in rows:
+  print "  ", row[0]
+
+db.close()
+
+Row data:
+[(u'Diane Paiwonski', 773217), (u'Harry Evans-Verres', 172342), (u'Hoban Washburne', 186753), (u'Jade Harley', 441304), (u'Jonathan Frisby', 917151), (u'Melpomene Murray', 102030), (u'Robert Oliver Howard', 124816), (u'Taylor Hebert', 654321), (u'Trevor Bruttenholm', 162636)]
+
+Student names:
+   Diane Paiwonski
+   Harry Evans-Verres
+   Hoban Washburne
+   Jade Harley
+   Jonathan Frisby
+   Melpomene Murray
+   Robert Oliver Howard
+   Taylor Hebert
+   Trevor Bruttenholm
+
+-------------

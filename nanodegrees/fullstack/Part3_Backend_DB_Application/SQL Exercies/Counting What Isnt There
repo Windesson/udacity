@@ -1,0 +1,117 @@
+Counting what isn’t there
+Counting rows in a single table is something you’ve seen many times before in this course. A column aggregated with the count aggregation function will return the number of rows in the table, or the number of rows for each value of a group by clause.
+
+For instance, you saw queries like these back in Lesson 2:
+
+select count(*) from animals;
+-- returns the number of animals in the zoo
+
+select count(*) from animals where species = 'gorilla';
+-- returns the number of gorillas
+
+select species, count(*) from animals group by species;
+-- returns each species’ name and the number of animals of that species
+
+Things get a little more complicated if you want to count the results of a join. Consider these tables we saw earlier in
+
+products:
+sku primary key	price	name
+101	$4.13	Ash Diffuser
+222	$11.11	Circular Fluid
+343	$61.20	Auxiliary Vise
+1025	$0.33	Coaxial Grommet
+
+sales:
+sku	sale_date	count
+222	2009-04-13	4
+343	2010-05-31	1
+222	2011-11-11	4
+
+Suppose that we want to know how many times we have sold each product. In other words, for each sku value in the products table, we want to know the number of times it occurs in the sales table. We might start out with a query like this:
+
+select products.name, products.sku, count(*) as num
+  from products join sales
+    on products.sku = sales.sku
+  group by products.sku;
+But this query might not do exactly what we want. If a particular sku has never been sold — if there are no entries for it in the sales table — then this query will not return a row for it at all.
+
+If we wanted to see a row with the number zero in it, we’ll be disappointed!
+
+However, there is a way to get the database to give us a count with a zero in it. To do this, we’ll need to change two things about this query —
+
+select products.name, products.sku, count(sales.sku) as num
+  from products left join sales
+    on products.sku = sales.sku
+  group by products.sku;
+
+  This query will give us a row for every product in the products table, even the ones that have no sales in the sales table.
+
+What’s changed? First, we’re using count(sales.sku) instead of count(*). This means that the database will count only rows where sales.sku is defined, instead of all rows.
+
+Second, we’re using a left join instead of a plain join.
+
+Um, so what’s a left join?
+SQL supports a number of variations on the theme of joins. The kind of join that you have seen earlier in this course is called an inner join, and it is the most common kind of join — so common that SQL doesn’t actually make us say "inner join" to do one.
+
+But the second most common is the left join, and its mirror-image partner, the right join. The words “left” and “right” refer to the tables to the left and right of the join operator. (Above, the left table is products and the right table is sales.)
+
+A regular (inner) join returns only those rows where the two tables have entries matching the join condition. A left join returns all those rows, plus the rows where the left table has an entry but the right table doesn’t. And a right join does the same but for the right table.
+
+(Just as “join” is short for “inner join”, so too is “left join” actually short for “left outer join”. But SQL lets us just say “left join”, which is a lot less typing. So we’ll do that.)
+
+
+-- Here are two tables describing bugs found in some programs.
+-- The "programs" table gives the name of each program and the files
+-- that it's made of.  The "bugs" table gives the file in which each
+-- bug was found.
+--
+-- create table programs (
+--    name text,
+--    filename text
+-- );
+-- create table bugs (
+--    filename text,
+--    description text,
+--    id serial primary key
+-- );
+--
+-- The query below is intended to count the number of bugs in each
+-- program. But it doesn't return a row for any program that has zero
+-- bugs. Try running it as it is.  Then change it so that the results
+-- will also include rows for the programs with no bugs.  These rows
+-- should have a 0 in the "bugs" column.
+
+select programs.name, count(*) as num
+   from programs join bugs
+        on programs.filename = bugs.filename
+   group by programs.name
+   order by num;
+
+   +-------------------+-----+
+   |              name | num |
+   +===================+=====+
+   | Sweet Spreadsheet |   2 |
+   |     Fancy Website |   3 |
+   +-------------------+-----+
+
+Better query.
+
+select programs.name, count(bugs.filename) as num
+   from programs left join bugs
+        on programs.filename = bugs.filename
+   group by programs.name
+   order by num
+
+   +--------------------+-----+
+   |               name | num |
+   +====================+=====+
+   | Your Database Code |   0 |
+   |  Sweet Spreadsheet |   2 |
+   |      Fancy Website |   3 |
+   +--------------------+-----+
+
+   Something to watch out for: What do you put in the count aggregation? If you leave it as count(*) or use a column from the programs table, your query will count entries that don't have bugs as well as ones that do.
+
+   In order to correctly report a zero for programs that don't have any entries in the bugs table, you have to use a column from the bugs table as the argument to count.
+
+   For instance, count(bugs.filename) will work, and so will count(bugs.description).

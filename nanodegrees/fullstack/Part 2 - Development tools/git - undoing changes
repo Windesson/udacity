@@ -1,0 +1,71 @@
+Undoing Changes
+
+git commit --amend (Alter the most-recent commit)
+git revert <SHA> (Reverses given commit)
+git reset  (Erases commits in order)
+
+⚠️ Resetting Is Dangerous ⚠️
+You've got to be careful with Git's resetting capabilities. This is one of the few commands that lets you erase commits from the repository. If a commit is no longer in the repository, then its content is gone.
+To alleviate the stress a bit, Git does keep track of everything for about 30 days before it completely erases anything. To access this content, you'll need to use the git reflog command. Check out these links for more info:
+git reflog <subcommand> <options>
+
+The git reset Command
+The git reset command is used to reset (erase) commits:
+
+$ git reset <reference-to-commit>
+Git Reset's Flags
+The way that Git determines if it erases, stages previously committed changes, or unstages previously committed changes is by the flag that's used. The flags are:
+
+--mixed (files stays in the working directory)
+--soft  (files are move to the staging index)
+--hard  (files are move to the trash directory)
+
+git reset --mixed HEAD^
+git reset --soft HEAD^
+
+Here's how we can refer to previous commits:
+
+the parent commit – the following indicate the parent commit of the current commit
+HEAD^
+HEAD~
+HEAD~1
+the grandparent commit – the following indicate the grandparent commit of the current commit
+HEAD^^
+HEAD~2
+the great-grandparent commit – the following indicate the great-grandparent commit of the current commit
+HEAD^^^
+HEAD~3
+
+💡 Backup Branch 💡
+Remember that using the git reset command will erase commits from the current branch. So if you want to follow along with all the resetting stuff that's coming up, you'll need to create a branch on the current commit that you can use as a backup.
+
+Before I do any resetting, I usually create a backup branch on the most-recent commit so that I can get back to the commits if I make a mistake:
+
+$ git branch backup
+
+💡 Back To Normal 💡
+If you created the backup branch prior to resetting anything, then you can easily get back to having the master branch point to the same commit as the backup branch. You'll just need to:
+
+remove the uncommitted changes from the working directory
+merge backup into master (which will cause a Fast-forward merge and move master up to the same point as backup)
+$ git checkout -- index.html
+$ git merge backup
+
+Reset Recap
+To recap, the git reset command is used erase commits:
+
+$ git reset <reference-to-commit>
+It can be used to:
+
+move the HEAD and current branch pointer to the referenced commit
+erase commits with the --hard flag
+moves committed changes to the staging index with the --soft flag
+unstages committed changes --mixed flag
+Typically, ancestry references are used to indicate previous commits. The ancestry references are:
+
+^ – indicates the parent commit
+~ – indicates the first parent commit
+Further Research
+git-reset from Git docs
+Reset Demystified from Git Blog
+Ancestry References from Git Book

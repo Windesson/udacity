@@ -1,0 +1,155 @@
+>>> from urllib.parse import urlparse
+>>> urlparse("https://classroom.udacity.com/courses/ud303").path
+'/courses/ud303'
+
+
+ncat -l 9999
+
+Parts of a URI
+A web address is also called a URI for Uniform Resource Identifier.
+You've seen plenty of these before. From a web user's view, a URI is a piece of
+text that you put into your web browser that tells it what page to go to.
+From a web developer's view, it's a little bit more complicated.
+
+Exercise: Send a request by hand
+
+C:\Users\Silva\Documents\GitHub\blog-project>python3 -m http.server 8000
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+127.0.0.1 - - [04/Jun/2017 14:29:43] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jun/2017 14:29:43] "GET /css/normalize.min.css HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jun/2017 14:29:43] "GET /css/app.css HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jun/2017 14:29:43] "GET /js/app.js HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jun/2017 14:29:43] "GET /img/profilepic.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jun/2017 14:29:43] "GET /img/something-to-remember.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jun/2017 14:29:43] "GET /img/village-in-the-valley.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jun/2017 14:29:43] "GET /img/seeing-clearly.png HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jun/2017 14:29:43] "GET /img/headerimage.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jun/2017 14:29:43] "GET /img/chasing-the-snow.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jun/2017 14:29:43] "GET /img/social-twitter.png HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jun/2017 14:29:43] "GET /img/social-instagram.png HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jun/2017 14:29:43] "GET /img/social-google.png HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jun/2017 14:29:44] code 404, message File not found
+127.0.0.1 - - [04/Jun/2017 14:29:44] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [04/Jun/2017 14:31:15] code 404, message File not found
+127.0.0.1 - - [04/Jun/2017 14:31:15] "GET /NotExistyFile HTTP/1.1" 404 -
+127.0.0.1 - - [04/Jun/2017 14:34:19] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jun/2017 15:03:12] "GET / HTTP/1.1" 200 -
+
+C:\Users\Silva>ncat 127.0.0.1 8000
+GET / HTTP/1.1
+Host: localhost
+
+HTTP/1.0 200 OK
+Server: SimpleHTTP/0.6 Python/3.6.1
+Date: Sun, 04 Jun 2017 19:03:12 GMT
+Content-type: text/html
+Content-Length: 4481
+Last-Modified: Wed, 31 May 2017 22:27:31 GMT
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Blog Project</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Open+Sans">
+    <link rel="stylesheet" href="css/normalize.min.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+    <header class="page-header">
+        <h1>Expedition</h1>
+    </header>
+
+    <div class="container">
+        <main>
+            <h2 class="visuallyhidden">Articles</h2>
+
+            <article>
+                <header>
+                    <h3>Chasing the Snow</h3>
+                    <time datetime="2016-05-12T08:00">May 12</time>
+                </header>
+
+                <img src="img/chasing-the-snow.jpg" alt="A dogsled team in Alaska">
+
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi, laborum dolorem, dolor error nihil vitae similique necessitatibus omnis iure quasi vel iste repellendus alias! Asperiores voluptatem, maiores quibusdam eaque consequatur.</p>
+
+                <a class="read-more" href="#">Read more</a>
+            </article>
+
+            <article>
+                <header>
+                    <h3>Seeing Clearly</h3>
+                    <time datetime="2016-05-09T10:35">May 09</time>
+                </header>
+
+                <img src="img/seeing-clearly.png" alt="Mountain peaks in Alaska">
+
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi, laborum dolorem, dolor error nihil vitae similique necessitatibus omnis iure quasi vel iste repellendus alias! Asperiores voluptatem, maiores quibusdam eaque consequatur.</p>
+
+                <a class="read-more" href="#">Read more</a>
+            </article>
+
+            <article>
+                <header>
+                    <h3>Something to Remember</h3>
+                    <time datetime="2016-05-06T22:50">May 06</time>
+                </header>
+
+                <img src="img/something-to-remember.jpg" alt="A winding, snow-covered road">
+
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi, laborum dolorem, dolor error nihil vitae similique necessitatibus omnis iure quasi vel iste repellendus alias! Asperiores voluptatem, maiores quibusdam eaque consequatur.</p>
+
+                <a class="read-more" href="#">Read more</a>
+            </article>
+
+            <article>
+                <header>
+                    <h3>Village in the Valley</h3>
+                    <time datetime="2016-05-06T22:49">May 06</time>
+                </header>
+
+                <img src="img/village-in-the-valley.jpg" alt="A quaint winter village nestled in the mountain">
+
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi, laborum dolorem, dolor error nihil vitae similique necessitatibus omnis iure quasi vel iste repellendus alias! Asperiores voluptatem, maiores quibusdam eaque consequatur.</p>
+
+                <a class="read-more" href="#">Read more</a>
+            </article>
+        </main>
+
+        <aside>
+            <img src="img/profilepic.jpg" alt="My profile picture">
+
+            <div class="sidebar-text">
+                <h2>About Me</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque ducimus delectus esse repellendus. Harum esse laudantium itaque, aut cum molestias magni voluptatum veritatis alias. Veniam, impedit fuga ab saepe repudiandae.</p>
+
+                <section>
+                    <h3 class="visuallyhidden">Social Links</h3>
+                    <a class="social-link" href="https://twitter.com/udacity">
+                        <img src="img/social-twitter.png" alt="Twitter">
+                    </a>
+                    <a class="social-link" href="https://www.instagram.com/udacity/">
+                        <img src="img/social-instagram.png" alt="Instagram">
+                    </a>
+                    <a class="social-link" href="https://plus.google.com/+Udacity">
+                        <img src="img/social-google.png" alt="Google Plus">
+                    </a>
+                </section>
+            </div>
+        </aside>
+    </div>
+
+    <footer>
+        Made with &hearts; by Richard @ Udacity
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
+close: Result too large
+
+C:\Users\Silva>
