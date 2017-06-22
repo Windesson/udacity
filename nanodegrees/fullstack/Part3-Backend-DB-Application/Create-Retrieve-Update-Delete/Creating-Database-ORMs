@@ -1,0 +1,127 @@
+
+
+restaurantmenu.db
+==================
+Restaurant:
+name
+id
+
+
+MenuItem:
+name
+id
+description
+price
+course
+restaurant_id
+
+============
+
+
+import sqlite3
+conn = sqlite3.connect('restaurantmenu.db')
+
+c = conn.cursor()
+c.execute('''
+          CREATE TABLE restaurant
+          (id INTEGER PRIMARY KEY ASC, name varchar(250) MOT NULL)
+          ''')
+c.execute('''
+          CREATE TABLE menu_item
+          (id INTEGER PRIMARY KEY ASC, name varchar(250), price varchar(250),
+          description varchar(250) NOT NULL, restaurant_id INTEGER NOT NULL,
+          FOREIGN KEY(restaurant_id) REFERENCES restaurant(id))
+          ''')
+
+conn.commit()
+conn.close()
+
+
+===========
+The above queries are string... better way is to use Object-Relational Mapping (ORMs)
+
+
+Python Object --> ORM --> SQL Statement --> Database
+
+ORM for python ... sqlalchemy
+
+====== Creating a database with SQLALchemy  =========================
+
+Components
+- Configuration
+  - At beginning of file
+    import all module needed
+    creates instance of declarative base
+  - At end of file
+    creates (Or connects) the database and adds table and columns
+
+    import sys
+
+    from sqlalchemy import
+    Column, ForeignKey, Integer, String
+
+    from sqlalchemy.ext.declarative import
+    declarative_base
+
+    from sqlalchemy.orm import relationship
+
+    from sqlalchemy import create_engine
+
+    Base = declarative_base()
+
+    #########inset at end of file ######
+
+    engine = create_engine(
+    'sqlite:///restaurantmenu.db')
+
+- Class
+- Table
+   - Representation of table as a python class
+   - Extends the Base class
+   - Nested inside will be table and mapper code
+
+   class Restaurant(Base):
+   # Representation of or table inside the database
+   __tablename__ = 'restautant'
+
+   class MenuItem(Base):
+   __tablename__ = 'menu_item'
+
+- Mapper
+  syntax columnName = Column(attributes,...)
+  example attributes:
+  String(250)
+  Integer
+  relationship(Class)
+  nullable = False
+  primary_key = True
+  ForeignKey('some_table.id')
+
+database_setup.py
+class Restaurant(Base):
+# Representation of or table inside the database
+__tablename__ = 'restautant':
+   name = Column(
+   String(80), nullable = False)
+
+   id = Column (
+   Integer, primary_key = True)
+
+class MenuItem(Base):
+__tablename__ = 'menu_item':
+  name = Column(
+  String(80), nullable = False)
+
+  id = Column (
+  Integer, primary_key = True)
+
+  course = Column(String(250))
+
+  description = Column(String(250))
+
+  price = Column(String(8))
+
+  restaurant_id = Column(
+  Integer, ForeignKey('restaurant.id'))
+
+  restaurant = relationship(Restaurant)
