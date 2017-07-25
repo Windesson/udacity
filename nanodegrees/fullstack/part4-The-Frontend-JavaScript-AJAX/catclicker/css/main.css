@@ -12,8 +12,11 @@
 
 .cat {
   color: red;
-
 }
+.catbox > div {
+  padding-right: 2px;
+}
+
 .cat:hover {
   color: blue;
 }
