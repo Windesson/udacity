@@ -1,4 +1,4 @@
-.cat {
+.catbox {
   display: flex;
   flex-wrap: wrap;
   align-content: center;
@@ -8,4 +8,12 @@
   width: 750px;
   max-width: 100%;
   margin-top: 25px;
+}
+
+.cat {
+  color: red;
+
+}
+.cat:hover {
+  color: blue;
 }

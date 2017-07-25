@@ -1,36 +1,35 @@
-// list of cat objects
-cats = [];
-
-// return cat from the list or false if not found
-function getcat(s) {
-  for (var i = 0; i < cats.length; i++) {
-    if(cats[i].name == s ){
-      return cats[i];
-    }
-  }
-  return false;
+var elements = document.getElementsByClassName("cat");
+for(var i=0; i<elements.length; i++) {
+  var name = elements[i].innerHTML
+  createcat(name);
 }
 
-function displaycat(s) {
-  // s in the object
-  var thiscat = getcat(s);
+function toggecat(id){
 
-  // add cat if cat is not in the list
-  if(!thiscat){
-    var newcat = new Object();
-    newcat.clicks = 0;
-    newcat.name = s;
-    cats.push(newcat)
-    thiscat = getcat(s);
-  }
+    var elemdiv = document.getElementById(id);
+    if(elemdiv.style.display == "none"){
+      elemdiv.style.display = "block"
+    }
+    else{
+      elemdiv.style.display = "none"
+    }
+
+}
+
+function createcat(s) {
+  var thiscat = new Object();
+  thiscat.clicks = 0;
+  thiscat.name = s;
+
   //console.log(cats)
-
+  // cconstruct new div
   var elem = document.getElementById('row-1');
   var div = document.createElement("div");
+  //div.style.visibility = "visible";
+  div.id = s
   var img = document.createElement("img");
   img.src = "img/"+s+".jpg";
   img.alt = s;
-  img.id = "my-cat";
   img.height = 159;
   img.width = 240;
   var h3 = document.createElement("h3");
@@ -38,7 +37,7 @@ function displaycat(s) {
   h3.innerHTML= s + ", clicks " + thiscat.clicks;
 
   // cleanup last child
-  elem.removeChild(elem.firstChild);
+  //elem.removeChild(elem.firstChild);
 
   // add new child
   div.appendChild(img);
