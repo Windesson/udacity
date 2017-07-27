@@ -8,7 +8,7 @@ function toggecat(id){
 
     var elemdiv = document.getElementById(id);
     if(elemdiv.style.display == "none"){
-      elemdiv.style.display = "block"
+      elemdiv.style.display = "block";
     }
     else{
       elemdiv.style.display = "none"
@@ -23,9 +23,10 @@ function createcat(s) {
 
   //console.log(cats)
   // cconstruct new div
-  var elem = document.getElementById('row-1');
+  //var elem = document.getElementById('row-1');
+  var elem = $('.catbox');  // jquery
   var div = document.createElement("div");
-  //div.style.visibility = "visible";
+  div.style.display = "none";
   div.id = s
   var img = document.createElement("img");
   img.src = "img/"+s+".jpg";
@@ -36,13 +37,11 @@ function createcat(s) {
   h3.id = "cat-info"
   h3.innerHTML= s + ", clicks " + thiscat.clicks;
 
-  // cleanup last child
-  //elem.removeChild(elem.firstChild);
-
   // add new child
   div.appendChild(img);
   div.appendChild(h3);
-  elem.appendChild(div);
+  //elem.appendChild(div);
+  elem.append(div); // jquery
   img.addEventListener('click', function(){
     thiscat.clicks = thiscat.clicks + 1;
     h3.innerHTML= s + ", clicks " + thiscat.clicks;
