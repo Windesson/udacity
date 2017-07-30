@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+   <meta charset="UTF-8">
+   <title>Your catclicler</title>
+   <link rel="stylesheet" href="css/style.css">
+ </head>
+ <body>
+   <h1 id="title">Cat Clicker</h1>
+   <ul class="cat-clicker">
+   </ul>
+   <div class="cat-box" id="row-1">
+   </div>
+   
+   <script type="text/template" data-template="catbox">
+     <div >
+       <img class="catimg" id="{{id}}" src="img/{{picture}}.jpg" >
+       <h3 id="catclick">clicks: {{clicks}}</h3>
+     </div>
+	</script>
+	
+   
+   <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+   <script src="js/app.js"></script>
+ </body>
+</html>
