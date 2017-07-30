@@ -1,0 +1,13 @@
+.toggleCat {
+  color: red;
+  margin-right: 5px;
+}
+
+.cat:hover {
+  color: blue;
+}
+
+img {
+	height = "159";
+	width = "240";
+}
