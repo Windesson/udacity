@@ -32,21 +32,26 @@ var Cat = function(data) {
 }
 
 var ViewModel = function() {
+    // self maps to the view-model 
     var self = this;
-    this.catList = ko.observableArray([]);
+    self.catList = ko.observableArray([]);
 
     initialCats.forEach(function(catItem){
       self.catList.push( new Cat(catItem));
     });
 
-    this.currentCat = ko.observable( self.catList()[0] );
+    self.currentCat = ko.observable( self.catList()[0] );
 
-    this.incrementCounter = function() {
+    self.incrementCounter = function() {
+      // 'this' in this case, is the clicked object, not the view-model 
       this.clickCount( this.clickCount() + 1);
+      //or
+      // self.currentCat().clickCount(self.currentCat().clickCount() + 1);
     };
 
     self.setCat = function(clickedCat) {
        self.currentCat(clickedCat);
+      
     };
 }
 
