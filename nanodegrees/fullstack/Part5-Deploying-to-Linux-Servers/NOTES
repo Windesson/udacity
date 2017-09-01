@@ -1,0 +1,73 @@
+
+Server:
+54.234.215.7
+ssh-keygen
+copy private
+
+Key authentication
+
+step 1:
+Client:
+user grader create pub,private key
+ssh-keygen
+
+server
+copy client public key into:
+vi .ssh/authorized_keys
+
+from client login to server using clients private key
+ssh grader@54.234.215.7 -p 22 -i id_rsa
+
+
+Forcing Key Based Authentication
+sudo nano /etc/ssh/sshd_config
+PasswordAuthentication no
+
+sudo service ssh restart
+
+
+Secure your server.
+3. Update all currently installed packages.
+/etc/ssh/ssh_config
+port 2200
+
+4. Change the SSH port from 22 to 2200. Make sure to configure the Lightsail firewall to allow it.
+
+5. Configure the Uncomplicated Firewall (UFW) to only allow incoming connections for
+SSH (port 2200),
+HTTP (port 80), and
+NTP (port 123).
+
+sudo ufw status
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow 2200/tcp
+sudo ufw allow ntp
+sudo ufw allow www
+
+
+10. Install and configure Apache to serve a Python mod_wsgi application.
+sudo apt-get install apache2
+sudo apt-get install libapache2-mod-wsgi
+
+
+/etc/apache2/sites-enabled/000-default.conf
+<VirtualHost *:80>
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/html
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+
+        WSGIScriptAlias / /var/www/html/myapp.wsgi
+</VirtualHost>
+
+ sudo apache2ctl restart
+
+11. Install and configure PostgreSQL:
+
+sudo apt-get install postgresql
+
+apt-get install git
