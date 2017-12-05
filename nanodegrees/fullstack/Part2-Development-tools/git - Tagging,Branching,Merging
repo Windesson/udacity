@@ -7,6 +7,7 @@ Pay attention to what's shown (just the SHA and the commit message)
 The command we'll be using to interact with the repository's tags is the git tag command:
 
 $ git tag -a v1.0
+git push origin v1.0
 
 Deleting A Tag
 What if you accidentally misspelled something in the tag's message, or mistyped the actual tag name (v0.1 instead of v1.0). How could you fix this? The easiest way is just to delete the tag and make a new one.
@@ -14,6 +15,7 @@ What if you accidentally misspelled something in the tag's message, or mistyped 
 A Git tag can be deleted with the -d flag (for delete!) and the name of the tag:
 
 $ git tag -d v1.0
+git push origin :v1.0
 
 
 Adding A Tag To A Past Commit
